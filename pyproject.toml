@@ -30,7 +30,7 @@ module = "tests.*"
 ignore_errors = true
 
 [tool.pytest.ini_options]
-addopts = "--cov=screening --cov=unit_economics --cov=fund_returns --cov=diligence --cov-report=term-missing"
+addopts = "--cov=screening --cov=unit_economics --cov=fund_returns --cov=diligence --cov=main --cov-report=term-missing"
 testpaths = ["tests"]
 
 [tool.coverage.run]
