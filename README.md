@@ -1,5 +1,7 @@
 # Climate Tech Venture Screening & Diligence Toolkit
 
+[![CI](https://github.com/rxj0102/Climate-Tech-Venture-Screening-Diligence-Toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/rxj0102/Climate-Tech-Venture-Screening-Diligence-Toolkit/actions/workflows/ci.yml)
+
 A Python toolkit that models the core analytical workflow of an
 early-stage climate tech VC analyst: screening a deal pipeline,
 evaluating unit economics under technology-cost uncertainty, modeling
