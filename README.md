@@ -71,8 +71,8 @@ default; the test suite targets >90% coverage with no skipped or
 ### Module 1: deal screening & scoring
 
 The synthetic pipeline (`screening/data_generator.py`) spans five
-verticals -- long-duration energy storage, industrial decarbonization,
-carbon removal, grid software, and alternative proteins/materials -- with
+verticals: long-duration energy storage, industrial decarbonization,
+carbon removal, grid software, and alternative proteins/materials: with
 per-deal fields for stage, ask/pre-money, TRL, founder/team score, moat
 score, TAM, burn multiple (capital efficiency proxy), and a policy
 tailwind flag.
@@ -93,13 +93,13 @@ These weights are a **documented judgment call**, chosen to reflect a
 plausible early-stage climate tech thesis (team and moat matter most;
 market size and policy tailwinds matter but shouldn't dominate). They are
 not derived from any empirical study of what actually predicts climate
-tech venture outcomes -- see Limitations below.
+tech venture outcomes: see Limitations below.
 
 **The deliberately borderline deal:** the pipeline always includes one
 hand-constructed deal that scores near the top of the pipeline (strong
 team, moat, TAM, TRL, capital efficiency, and a policy tailwind) but
 carries a single disqualifying diligence flag. The scoring model has no
-way to know about this flag -- that's the point. It's Module 4's job to
+way to know about this flag: that's the point. It's Module 4's job to
 catch it, mirroring a real IC dynamic where a strong headline score is
 necessary but not sufficient.
 
@@ -108,11 +108,11 @@ necessary but not sufficient.
 `unit_economics/learning_curve.py` implements Wright's Law: unit cost
 declines as a power-law function of cumulative deployment volume. Each
 doubling of cumulative volume reduces cost by a constant fraction (the
-"learning rate"). The module provides both the classical form (referenced
+*learning rate*). The module provides both the classical form (referenced
 to the cost of the literal first unit ever built) and a
-reference-volume-calibrated form (referenced to "our cost today, at our
-current deployed volume"), which is what the path-to-profitability model
-actually uses -- it's far easier to calibrate a scenario from a known
+reference-volume-calibrated form (referenced to *our cost today, at our
+current deployed volume*), which is what the path-to-profitability model
+actually uses: it's far easier to calibrate a scenario from a known
 current cost than from an unknowable first-unit cost.
 
 Given a starting cost, a learning rate, and an exponential deployment
@@ -123,7 +123,7 @@ healthy margin).
 The Monte Carlo simulation (`unit_economics/monte_carlo.py`) runs 5,000
 paths sampling learning rate, deployment growth rate, and starting cost
 from triangular distributions, and reports **percentiles of years-to-
-profitability, not a single point estimate** -- plus the fraction of paths
+profitability, not a single point estimate**, plus the fraction of paths
 that never reach profitability within the modeled horizon.
 
 The tornado sensitivity analysis (`unit_economics/sensitivity.py`) sweeps
@@ -140,11 +140,11 @@ participate pro-rata with a configured follow-on check, which offsets some
 of that dilution. Fund proceeds and MOIC are computed under several
 exit-value scenarios.
 
-`fund_returns/power_law.py` implements the classic "power-law portfolio
-construction" exercise, kept intentionally separate from the dilution
+`fund_returns/power_law.py` implements the classic *power-law portfolio
+construction* exercise, kept intentionally separate from the dilution
 model above: given a fund size and average check size, it computes the
 implied number of portfolio bets, then simulates fund-level MOIC under an
-assumed hit rate (fraction of bets that are power-law "winners" drawn from
+assumed hit rate (fraction of bets that are power-law *winners* drawn from
 a heavy-tailed Lomax distribution; the rest return a modest-to-zero
 multiple). `required_hit_rate_for_target_moic` finds the smallest hit rate
 that would clear a target fund multiple, using a common-random-numbers
@@ -159,7 +159,7 @@ Each shortlisted deal gets a synthetically generated status (resolved /
 unresolved / flagged) per item, deterministic given the deal's id and a
 global seed. HIGH-severity items are resolved more often than
 MEDIUM/LOW-severity ones, reflecting that a real diligence process
-prioritizes verifying the highest-risk items first -- without that
+prioritizes verifying the highest-risk items first: without that
 adjustment, nearly every deal in the pipeline would trip an override,
 which wouldn't look like a realistic pipeline.
 
@@ -169,7 +169,7 @@ item vetoes an automatic PROCEED recommendation, regardless of composite
 score.** When this fires on a deal whose score alone would have supported
 PROCEED, the engine marks it as an explicit override in the rationale --
 it doesn't just silently produce a lower recommendation. This is the same
-"a good headline number doesn't excuse an unresolved red flag" pattern
+*a good headline number doesn't excuse an unresolved red flag* pattern
 that shows up in other diligence-tracking tools, reimplemented here for
 this domain.
 
@@ -190,8 +190,8 @@ be mistaken for investment advice or research:
 - **The scoring weights are a judgment call, not a fitted model.** There
   is no backtest showing these weights predict anything. A different
   analyst could reasonably choose different weights and get a materially
-  different ranking. Treat the composite score as "a documented way to
-  combine several signals," not "the probability this deal succeeds."
+  different ranking. Treat the composite score as *a documented way to
+  combine several signals,* not *the probability this deal succeeds.*
 - **The composite score has no way to see disqualifying risk.** That's by
   design (it's what Module 4 is for), but it also means the score itself
   should never be read as a standalone recommendation.
@@ -216,12 +216,12 @@ be mistaken for investment advice or research:
   independently. This keeps every deal's numbers internally consistent and
   reproducible, but it means two deals with the same entry valuation get
   the same round-progression multiples regardless of how their business
-  actually performs -- a real fund's follow-on decisions depend on
+  actually performs: a real fund's follow-on decisions depend on
   company performance, not a formula.
 - **The power-law portfolio simulator assumes every bet is the same
   check size, bets are independent (no vintage or sector clustering), and
-  "winner" is a single Bernoulli draw per bet.** It is also entirely
-  separate from the dilution model in the same module -- the two are not
+  *winner* is a single Bernoulli draw per bet.** It is also entirely
+  separate from the dilution model in the same module: the two are not
   reconciled, and shouldn't be read as two views of the same investment.
   Real portfolio construction depends on reserves, follow-on timing, and
   correlated outcomes within a vintage (e.g., a policy shift or a
